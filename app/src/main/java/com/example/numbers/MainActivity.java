@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Times += 1;
-                String times = getText(Times).toString();
                 num.setText(Integer.toString(Times));
             }
         });
@@ -62,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void zero(View view) {
+    public void zero (View view){
+        Times=0 ;
         num.setText("0");
     }
 }
