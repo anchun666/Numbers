@@ -3,22 +3,27 @@ package com.example.numbers;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     int Times = 0;
     TextView num ;
+    String TAG = MainActivity.class.getSimpleName();
+    int Secret = new Random().nextInt(10)+1;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +33,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         num = findViewById(R.id.num);
+        imageView = findViewById(R.id.imageView);
+        Log.d(TAG,"secret:" + Secret);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Times += 1;
                 num.setText(Integer.toString(Times));
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setAlpha(1.0f);
+                if (Times == Secret) {
+                    Toast.makeText(MainActivity.this, "Bingo", Toast.LENGTH_LONG).show();
+                    imageView.setImageResource(R.drawable.cry);
+                } else {
+                    imageView.setImageResource(R.drawable.smile);
+                    imageView.animate().alpha(0.0f).setDuration(1200);
+                }
             }
         });
     }
@@ -61,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void zero (View view){
+    public void reset (View view){
         Times=0 ;
         num.setText("0");
     }
